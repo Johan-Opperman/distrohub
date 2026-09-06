@@ -1,5 +1,7 @@
 # DistroHub
 
+> 🌐 **Live:** https://distrohub.opperman.dev
+
 **Find the operating system that fits.** A clean, searchable directory of Linux
 distributions and Windows — how to download each one, how to make the USB, how to
 install it, how to keep it updated, and real user reviews and star ratings, all in
@@ -39,7 +41,7 @@ frameworks to learn, nothing to compile — it runs on a Raspberry Pi.
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/distrohub.git
+git clone https://github.com/Johan-Opperman/distrohub.git
 cd distrohub
 pip install -r requirements.txt
 python3 app.py
