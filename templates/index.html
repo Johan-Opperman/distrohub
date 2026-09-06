@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DistroHub — find your operating system</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161c24; --panel2:#1c232d; --line:#28313d;
+    --text:#e8edf3; --muted:#8a97a6; --dim:#5b6774;
+    --accent:#35d0ba; --accent-dim:#1c6f65; --amber:#ffb43f;
+    --red:#ff6b6b;
+    --c-beginner:#4dd07a; --c-mainstream:#4db5ff; --c-gaming:#c77dff;
+    --c-arch:#7db9ff; --c-security:#ff6b6b; --c-privacy:#ffb43f;
+    --c-advanced:#ff9f45; --c-servers:#5bd6c4; --c-windows:#64a6ff;
+    --mono:ui-monospace,"SFMono-Regular","JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:inherit}
+  ::selection{background:var(--accent-dim);color:#fff}
+
+  /* header */
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;
+    background:rgba(14,17,22,.86);backdrop-filter:blur(8px)}
+  .bar{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .brand .mk{width:26px;height:26px;border-radius:6px;background:var(--accent);
+    color:#06231f;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:13px}
+  .brand small{color:var(--muted);font-weight:500;font-size:12px}
+  .by{margin-left:auto;color:var(--dim);font-size:12px;font-family:var(--mono)}
+  .nav{margin-left:auto;display:flex;gap:4px}
+  .nav a{color:var(--muted);font-size:13.5px;cursor:pointer;padding:6px 11px;border-radius:8px;transition:.12s}
+  .nav a:hover{color:var(--text);background:var(--panel)}
+
+  .toollink{background:var(--accent);color:#06231f;border:none;font-weight:650;
+    padding:9px 15px;border-radius:9px;cursor:pointer;font-size:13.5px}
+  .toollink:hover{filter:brightness(1.07)}
+  .tool{border-top:1px solid var(--line);padding:16px 0;margin-top:4px}
+  .tool-head{display:flex;align-items:baseline;gap:10px}
+  .tool-head h3{margin:0;font-size:18px;font-weight:700}
+  .tool-plat{font-family:var(--mono);font-size:11px;color:var(--dim)}
+  .tool-for{color:var(--muted);font-size:13.5px;margin:4px 0 10px}
+  .info h5{font-family:var(--mono);font-size:12px;color:var(--accent);margin:14px 0 5px;font-weight:600}
+  .info ol,.info ul{margin:0;padding-left:20px}
+  .info li{font-size:13.8px;color:var(--text);margin:5px 0;line-height:1.5}
+  .tips li{color:var(--muted)}
+  .toolwarn{font-size:13px;color:#5a3d00;background:#fff3d6;border:1px solid #e6b34d;
+    border-radius:8px;padding:9px 11px;margin:10px 0}
+  /* info panels (about / support / contact) */
+  .info h2{margin:6px 0 2px;font-size:22px;font-weight:720}
+  .info .lead{color:var(--muted);font-size:14px;margin:0 0 14px}
+  .info p{font-size:14px;color:var(--text);margin:10px 0}
+  .info .sig{font-family:var(--mono);color:var(--accent);font-size:13px;margin-top:14px}
+  .donate{display:inline-flex;align-items:center;gap:9px;background:var(--amber);color:#3a2600;
+    font-weight:700;text-decoration:none;padding:12px 20px;border-radius:10px;font-size:15px;margin:8px 0;cursor:pointer;border:none}
+  .donate:hover{filter:brightness(1.06)}
+  .cform label{font-size:12px;color:var(--muted);display:block;margin:12px 0 5px}
+  .cform input,.cform textarea,.cform select{width:100%;background:var(--panel);border:1px solid var(--line);
+    color:var(--text);border-radius:8px;padding:10px 12px;font-family:inherit;font-size:14px}
+  .cform textarea{resize:vertical;min-height:110px}
+  .cform select{font-family:inherit}
+  .cform .send{margin-top:16px;background:var(--accent);color:#06231f;border:none;font-weight:700;
+    padding:11px 20px;border-radius:9px;cursor:pointer;font-size:14px}
+  .cform .send:hover{filter:brightness(1.07)}
+  .cform .to{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px}
+
+  /* hero */
+  .hero{max-width:1080px;margin:0 auto;padding:34px 20px 10px}
+  .hero h1{font-size:30px;line-height:1.15;margin:0 0 6px;font-weight:750;letter-spacing:-.4px}
+  .hero p{margin:0 0 20px;color:var(--muted);max-width:52ch}
+  .search{display:flex;align-items:center;gap:10px;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s}
+  .search:focus-within{border-color:var(--accent-dim)}
+  .search .prompt{font-family:var(--mono);color:var(--accent);font-size:14px;user-select:none}
+  .search input{flex:1;background:none;border:none;outline:none;color:var(--text);
+    font-family:var(--mono);font-size:15px}
+  .search input::placeholder{color:var(--dim)}
+  .search kbd{font-family:var(--mono);font-size:11px;color:var(--dim);border:1px solid var(--line);
+    border-radius:5px;padding:2px 6px}
+
+  /* chips */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px}
+  .chip{font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);color:var(--muted);cursor:pointer;transition:.12s;white-space:nowrap}
+  .chip:hover{color:var(--text);border-color:var(--dim)}
+  .chip.on{background:var(--accent);color:#06231f;border-color:var(--accent);font-weight:650}
+  .count{max-width:1080px;margin:0 auto;padding:10px 20px 0;color:var(--dim);
+    font-family:var(--mono);font-size:12px}
+
+  /* grid */
+  main{max-width:1080px;margin:0 auto;padding:14px 20px 60px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;
+    cursor:pointer;transition:border-color .14s, transform .14s;display:flex;flex-direction:column;gap:10px}
+  .card:hover{border-color:var(--accent-dim);transform:translateY(-2px)}
+  .card .top{display:flex;gap:12px;align-items:flex-start}
+  .glyph{width:42px;height:42px;border-radius:9px;display:grid;place-items:center;flex:none;
+    font-family:var(--mono);font-weight:700;font-size:19px;color:#0c1013}
+  .card h3{margin:0;font-size:16px;font-weight:680}
+  .card .tag{color:var(--muted);font-size:13px;margin-top:1px}
+  .meta{font-family:var(--mono);font-size:11.5px;color:var(--dim);
+    display:flex;flex-wrap:wrap;gap:4px 10px;border-top:1px dashed var(--line);padding-top:9px}
+  .meta b{color:var(--muted);font-weight:500}
+  .cardfoot{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+  .badge{font-size:11px;padding:3px 9px;border-radius:6px;font-weight:600;font-family:var(--mono)}
+  .stars{display:inline-flex;gap:1px;color:var(--amber);font-size:14px;letter-spacing:1px}
+  .stars .empty{color:#3a434f}
+  .rate-n{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-left:7px}
+
+  .empty-grid{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 20px;
+    border:1px dashed var(--line);border-radius:12px}
+  .empty-grid code{font-family:var(--mono);color:var(--accent)}
+
+  /* detail overlay */
+  .scrim{position:fixed;inset:0;background:rgba(6,8,11,.66);backdrop-filter:blur(3px);
+    z-index:40;opacity:0;pointer-events:none;transition:opacity .18s}
+  .scrim.on{opacity:1;pointer-events:auto}
+  .sheet{position:fixed;top:0;right:0;height:100%;width:min(560px,100%);background:var(--bg);
+    border-left:1px solid var(--line);z-index:50;transform:translateX(100%);
+    transition:transform .22s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+  .sheet.on{transform:translateX(0)}
+  .sheet-in{padding:22px}
+  .close{position:sticky;top:0;float:right;background:var(--panel);border:1px solid var(--line);
+    color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:16px}
+  .close:hover{color:var(--text)}
+  .d-head{display:flex;gap:14px;align-items:center;margin-bottom:4px}
+  .d-head .glyph{width:52px;height:52px;font-size:23px;border-radius:11px}
+  .d-head h2{margin:0;font-size:22px;font-weight:720}
+  .d-head .tag{color:var(--muted);font-size:14px}
+  .d-meta{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;
+    gap:6px 14px;margin:14px 0;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+  .d-meta b{color:var(--dim);font-weight:500}
+  .dl{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#06231f;
+    font-weight:680;text-decoration:none;padding:11px 18px;border-radius:10px;font-size:14px}
+  .dl:hover{filter:brightness(1.07)}
+  .dl.pdf{background:transparent;color:var(--accent);border:1px solid var(--accent-dim);margin-left:8px}
+  .dl.pdf:hover{background:var(--panel);filter:none}
+
+  .tabs{display:flex;gap:4px;margin:22px 0 0;border-bottom:1px solid var(--line)}
+  .tab{padding:9px 13px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab.on{color:var(--text);border-color:var(--accent)}
+  .panel-body{padding:16px 0}
+  .panel-body h4{margin:16px 0 6px;font-size:13px;color:var(--accent);font-family:var(--mono);font-weight:600}
+  .panel-body ol{margin:0;padding-left:18px}
+  .panel-body li{margin:5px 0;color:var(--text);font-size:14px}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px;
+    overflow-x:auto;font-family:var(--mono);font-size:12.5px;color:#cfe9e4;margin:8px 0;line-height:1.55}
+  .hint{color:var(--muted);font-size:13px;margin:6px 0}
+
+  /* reviews */
+  .rev-summary{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .big-score{font-size:38px;font-weight:750;font-family:var(--mono);line-height:1}
+  .rev-summary .stars{font-size:17px}
+  .rev-form{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px;margin:16px 0}
+  .rev-form label{font-size:12px;color:var(--muted);display:block;margin:0 0 5px}
+  .pick{display:inline-flex;gap:3px;font-size:24px;color:#3a434f;cursor:pointer;margin-bottom:12px}
+  .pick span{transition:color .1s}
+  .pick span.lit{color:var(--amber)}
+  .rev-form input,.rev-form textarea{width:100%;background:var(--bg);border:1px solid var(--line);
+    color:var(--text);border-radius:8px;padding:9px 11px;font-family:inherit;font-size:14px;margin-bottom:10px}
+  .rev-form textarea{resize:vertical;min-height:64px}
+  .rev-form button{background:var(--accent);color:#06231f;border:none;font-weight:680;
+    padding:9px 18px;border-radius:8px;cursor:pointer;font-size:14px}
+  .rev-form button:hover{filter:brightness(1.07)}
+  .rev{border-bottom:1px solid var(--line);padding:13px 0}
+  .rev .r-head{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .rev .who{font-weight:640;font-size:14px}
+  .rev .when{color:var(--dim);font-size:11.5px;font-family:var(--mono);margin-left:auto}
+  .rev .r-body{color:var(--text);font-size:14px;white-space:pre-wrap}
+  .rev .stars{font-size:13px}
+  .no-rev{color:var(--muted);text-align:center;padding:22px;border:1px dashed var(--line);
+    border-radius:10px;margin-top:14px}
+  .no-rev b{color:var(--text)}
+
+  footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;color:var(--dim);
+    font-size:12px;font-family:var(--mono);text-align:center}
+  @media(max-width:560px){.hero h1{font-size:24px}.bar .by{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand"><span class="mk">OC</span>DistroHub <small>· by Opperman Cybernetix</small></div>
+    <nav class="nav">
+      <a onclick="openTools()">Tools</a>
+      <a onclick="openInfo('about')">About</a>
+      <a onclick="openInfo('support')">Support</a>
+      <a onclick="openInfo('contact')">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Find the operating system that fits.</h1>
+  <p>Browse every major distro, learn how to download and install it, and see how real users rate it. Search by name, or by what you need it for.</p>
+  <div class="search">
+    <span class="prompt">~/distros $</span>
+    <input id="q" type="text" autocomplete="off" placeholder="try: gaming, security, beginner, arch…" aria-label="Search distros">
+    <kbd>esc to clear</kbd>
+  </div>
+  <div class="chips" id="chips"></div>
+</section>
+<div class="count" id="count"></div>
+
+<main><div class="grid" id="grid"></div></main>
+
+<footer>
+  A one-person project, built and maintained in my own time by <b style="color:var(--muted)">Opperman Cybernetix</b>.<br>
+  <span style="line-height:2">
+    <a onclick="openTools()" style="cursor:pointer;color:var(--accent)">Make a USB</a> ·
+    <a onclick="openInfo('about')" style="cursor:pointer;color:var(--accent)">About</a> ·
+    <a onclick="openInfo('support')" style="cursor:pointer;color:var(--accent)">Support the project</a> ·
+    <a onclick="openInfo('contact')" style="cursor:pointer;color:var(--accent)">Contact</a>
+  </span><br>
+  DistroHub · prototype · 2026
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet"><div class="sheet-in" id="sheetIn"></div></aside>
+
+<script>
+/* ---------- data ---------- */
+const CATS = {
+  beginner:{label:"Beginner", c:"var(--c-beginner)"},
+  mainstream:{label:"Mainstream", c:"var(--c-mainstream)"},
+  gaming:{label:"Gaming", c:"var(--c-gaming)"},
+  arch:{label:"Arch", c:"var(--c-arch)"},
+  security:{label:"Security", c:"var(--c-security)"},
+  privacy:{label:"Privacy", c:"var(--c-privacy)"},
+  advanced:{label:"Advanced", c:"var(--c-advanced)"},
+  servers:{label:"Servers & Devices", c:"var(--c-servers)"},
+  windows:{label:"Windows", c:"var(--c-windows)"}
+};
+// glyph colors per distro
+let D = [];  // loaded from /api/distros
+
+/* ---------- data via API ---------- */
+async function loadDistros(){
+  const res = await fetch("/api/distros");
+  D = await res.json();
+}
+async function getReviews(id){
+  try{ const r = await fetch("/api/distros/"+id+"/reviews"); return await r.json(); }
+  catch(e){ return []; }
+}
+async function addReview(id, rev){
+  const res = await fetch("/api/distros/"+id+"/reviews", {
+    method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rev)
+  });
+  const data = await res.json();
+  if(!res.ok){ throw new Error(data.error || "Could not post review."); }
+  // update the cached distro's rating so cards refresh
+  const d = D.find(x=>x.id===id); if(d){ d.avg = data.avg; d.count = data.count; }
+  return data.reviews;
+}
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+function starStr(avg){
+  let s="";
+  for(let i=1;i<=5;i++) s += (avg>=i-0.25) ? "★" : '<span class="empty">★</span>';
+  return s;
+}
+function avgOf(list){ if(!list.length) return 0; return list.reduce((a,b)=>a+b.r,0)/list.length; }
+async function ratingFor(id){ const d = D.find(x=>x.id===id)||{}; return {avg:d.avg||0, n:d.count||0}; }
+
+/* ---------- render grid ---------- */
+let activeCat = "all", query = "";
+async function render(){
+  const grid = $("#grid"); grid.innerHTML = "";
+  const q = query.trim().toLowerCase();
+  const list = D.filter(d=>{
+    if(activeCat!=="all" && d.cat!==activeCat) return false;
+    if(!q) return true;
+    const hay = (d.name+" "+d.cat+" "+d.blurb+" "+d.tags.join(" ")+" "+d.pm+" "+d.based).toLowerCase();
+    return hay.includes(q);
+  });
+  $("#count").textContent = `> ${list.length} ${list.length===1?"result":"results"}` + (q?` for "${q}"`:"") + (activeCat!=="all"?`  ·  ${CATS[activeCat].label}`:"");
+  if(!list.length){
+    grid.innerHTML = `<div class="empty-grid">No distro matches that.<br>Try <code>gaming</code>, <code>security</code>, <code>lightweight</code> or clear the search.</div>`;
+    return;
+  }
+  for(const d of list){
+    const cat = CATS[d.cat];
+    const card = document.createElement("div");
+    card.className = "card"; card.tabIndex = 0;
+    card.innerHTML = `
+      <div class="top">
+        <div class="glyph" style="background:${d.g}">${d.name[0].toUpperCase()}</div>
+        <div><h3>${d.name}</h3><div class="tag">${d.blurb}</div></div>
+      </div>
+      <div class="meta"><span><b>pkg</b> ${d.pm}</span><span><b>base</b> ${d.based}</span><span><b>level</b> ${d.diff}</span></div>
+      <div class="cardfoot">
+        <span class="badge" style="background:${cat.c}22;color:${cat.c}">${cat.label}</span>
+        <span class="rate" data-id="${d.id}"><span class="stars">${starStr(0)}</span><span class="rate-n">…</span></span>
+      </div>`;
+    card.onclick = ()=>openSheet(d.id);
+    card.onkeydown = e=>{ if(e.key==="Enter") openSheet(d.id); };
+    grid.appendChild(card);
+    ratingFor(d.id).then(({avg,n})=>{
+      const el = card.querySelector(".rate");
+      el.querySelector(".stars").innerHTML = starStr(avg);
+      el.querySelector(".rate-n").textContent = n ? `${avg.toFixed(1)} (${n})` : "no ratings";
+    });
+  }
+}
+
+/* ---------- chips ---------- */
+function buildChips(){
+  const box = $("#chips");
+  const all = [["all","All"]].concat(Object.entries(CATS).map(([k,v])=>[k,v.label]));
+  box.innerHTML = "";
+  for(const [k,label] of all){
+    const b = document.createElement("button");
+    b.className = "chip"+(k===activeCat?" on":""); b.textContent = label;
+    b.onclick = ()=>{ activeCat=k; buildChips();
+loadDistros().then(render).catch(()=>{
+  document.getElementById('grid').innerHTML='<div class=\'empty-grid\'>Could not reach the server. Is the Flask app running?</div>';
+}); };
+    box.appendChild(b);
+  }
+}
+
+/* ---------- detail sheet ---------- */
+let curTab = "usb", pendingRating = 0;
+async function openSheet(id){
+  const d = D.find(x=>x.id===id); if(!d) return;
+  curTab = "usb"; pendingRating = 0;
+  const cat = CATS[d.cat];
+  const {avg,n} = await ratingFor(id);
+  const reviews = await getReviews(id);
+  $("#sheetIn").innerHTML = `
+    <button class="close" onclick="closeSheet()">✕</button>
+    <div class="d-head">
+      <div class="glyph" style="background:${d.g}">${d.name[0].toUpperCase()}</div>
+      <div><h2>${d.name}</h2><div class="tag">${d.blurb}</div></div>
+    </div>
+    <div class="d-meta">
+      <span><b>category</b> ${cat.label}</span><span><b>package manager</b> ${d.pm}</span>
+      <span><b>based on</b> ${d.based}</span><span><b>difficulty</b> ${d.diff}</span>
+    </div>
+    <a class="dl" href="${d.url}" target="_blank" rel="noopener">↓ Download ${d.name.split(" ")[0]}</a>
+    <a class="dl pdf" href="/distros/${d.id}.pdf" target="_blank" rel="noopener">⤓ PDF guide</a>
+    ${d.note?`<p class="hint" style="color:var(--amber);margin-top:14px">⚠ ${d.note}</p>`:""}
+    <div class="tabs">
+      <div class="tab on" data-t="usb" onclick="switchTab('usb')">Make USB</div>
+      <div class="tab" data-t="install" onclick="switchTab('install')">Install</div>
+      <div class="tab" data-t="after" onclick="switchTab('after')">After install</div>
+      <div class="tab" data-t="update" onclick="switchTab('update')">Update</div>
+      <div class="tab" data-t="reviews" onclick="switchTab('reviews')">Reviews (${n})</div>
+    </div>
+    <div class="panel-body" id="panelBody"></div>`;
+  renderTab(d, reviews, avg, n);
+  $("#scrim").classList.add("on"); $("#sheet").classList.add("on");
+  document.body.style.overflow="hidden";
+}
+function switchTab(t){
+  curTab=t;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.t===t));
+  const id = currentId(); const dd = D.find(x=>x.id===id);
+  getReviews(id).then(list=>renderTab(dd, list, avgOf(list), list.length));
+}
+let _curId=null;
+function currentId(){ return _curId; }
+function renderTab(d, reviews, avg, n){
+  _curId = d.id;
+  const body = $("#panelBody");
+  if(curTab==="usb"){
+    body.innerHTML = `<h4>Make the bootable USB</h4><p class="hint">${d.usb}</p>
+      <p class="hint">New to flashing a USB? The full step-by-step for each tool is here:</p>
+      <button class="toollink" onclick="openTools()">→ How to use Ventoy, Rufus, Etcher &amp; dd</button>
+      <p class="hint" style="margin-top:10px">Always verify the download's checksum first.</p>`;
+  }else if(curTab==="install"){
+    body.innerHTML = `<h4>Install steps</h4><ol>${d.install.map(s=>`<li>${s}</li>`).join("")}</ol>`;
+  }else if(curTab==="after"){
+    body.innerHTML = `<h4>First things after install — get working</h4><pre>${d.after.replace(/</g,"&lt;")}</pre>`;
+  }else if(curTab==="update"){
+    body.innerHTML = `<h4>Keep it updated</h4><p class="hint">Run this to pull the latest packages and security fixes:</p><pre>${(d.update||"").replace(/</g,"&lt;")}</pre>`;
+  }else{
+    body.innerHTML = reviewsHTML(d, reviews, avg, n);
+    wireReviewForm(d.id);
+  }
+}
+function reviewsHTML(d, reviews, avg, n){
+  const dist = reviewsSummary(reviews);
+  return `
+    <div class="rev-summary">
+      <div class="big-score">${n?avg.toFixed(1):"–"}</div>
+      <div><div class="stars" style="font-size:17px">${starStr(avg)}</div>
+      <div class="hint" style="margin:3px 0 0">${n?`${n} ${n===1?"review":"reviews"}`:"No reviews yet"}</div></div>
+    </div>
+    <div class="rev-form">
+      <label>Your rating</label>
+      <div class="pick" id="pick">${[1,2,3,4,5].map(i=>`<span data-v="${i}">★</span>`).join("")}</div>
+      <input id="revName" type="text" placeholder="Your name (or handle)" maxlength="40">
+      <textarea id="revText" placeholder="How did it go? Install tips, problems, what you use it for…" maxlength="600"></textarea>
+      <button onclick="submitReview('${d.id}')">Post review</button>
+    </div>
+    ${ n ? reviews.map(r=>`
+      <div class="rev"><div class="r-head">
+        <span class="who">${esc(r.who)}</span>
+        <span class="stars">${starStr(r.r)}</span>
+        <span class="when">${r.when||"just now"}</span>
+      </div><div class="r-body">${esc(r.c)}</div></div>`).join("")
+    : `<div class="no-rev"><b>Be the first to review ${d.name}.</b><br>Share how the install went or what you use it for.</div>` }`;
+}
+function reviewsSummary(list){ return null; }
+function wireReviewForm(id){
+  const pick = $("#pick"); if(!pick) return;
+  const spans = [...pick.querySelectorAll("span")];
+  const paint = v=>spans.forEach((s,i)=>s.classList.toggle("lit", i<v));
+  spans.forEach(s=>{
+    s.onmouseenter = ()=>paint(+s.dataset.v);
+    s.onclick = ()=>{ pendingRating=+s.dataset.v; paint(pendingRating); };
+  });
+  pick.onmouseleave = ()=>paint(pendingRating);
+}
+async function submitReview(id){
+  const name = ($("#revName").value||"").trim() || "anonymous";
+  const text = ($("#revText").value||"").trim();
+  if(!pendingRating){ alert("Pick a star rating first."); return; }
+  if(!text){ alert("Add a quick note with your review."); return; }
+  const rev = {who:name, r:pendingRating, c:text, when:"just now"};
+  const list = await addReview(id, rev);
+  pendingRating = 0;
+  const d = D.find(x=>x.id===id);
+  renderTab(d, list, avgOf(list), list.length);
+  // refresh the tab label + card rating
+  document.querySelectorAll(".tab").forEach(x=>{ if(x.dataset.t==="reviews") x.textContent=`Reviews (${list.length})`; });
+  render();
+}
+function esc(s){ return (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+function closeSheet(){
+  $("#scrim").classList.remove("on"); $("#sheet").classList.remove("on");
+  document.body.style.overflow="";
+}
+
+/* ---------- events ---------- */
+$("#q").addEventListener("input", e=>{ query=e.target.value; render(); });
+$("#q").addEventListener("keydown", e=>{ if(e.key==="Escape"){ e.target.value=""; query=""; render(); }});
+$("#scrim").addEventListener("click", closeSheet);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeSheet(); });
+
+/* ---------- tools (how to make a USB) ---------- */
+let TOOLS = null;
+async function openTools(){
+  $("#sheetIn").innerHTML = `<button class="close" onclick="closeSheet()">✕</button>
+    <div class="info"><h2>Making a bootable USB</h2>
+    <p class="lead">Loading…</p></div>`;
+  $("#scrim").classList.add("on"); $("#sheet").classList.add("on");
+  document.body.style.overflow = "hidden";
+  if(!TOOLS){ try{ TOOLS = await (await fetch("/api/tools")).json(); }catch(e){ TOOLS = []; } }
+  const esc = s => (s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const list = t => t.map(x=>`<li>${esc(x)}</li>`).join("");
+  let h = `<div class="info"><h2>Making a bootable USB</h2>
+    <p class="lead">Every distro is installed from a USB stick you 'flash' with its ISO. Pick the tool that fits, then follow the steps. Not sure? <b>balenaEtcher</b> is the easiest; <b>Ventoy</b> is best if you want several distros on one stick.</p>`;
+  for(const t of TOOLS){
+    h += `<div class="tool">
+      <div class="tool-head"><h3>${esc(t.name)}</h3><span class="tool-plat">${esc(t.platforms)}</span></div>
+      <p class="tool-for">${esc(t.for)}</p>
+      ${t.url?`<a class="dl pdf" href="${t.url}" target="_blank" rel="noopener">↓ Get ${esc(t.name.split(" ")[0])}</a>`:""}
+      <h5>Set it up</h5><ol>${list(t.install)}</ol>
+      ${t.code?`<pre>${esc(t.code)}</pre>`:""}
+      <h5>Use it</h5><ol>${list(t.use)}</ol>
+      ${t.warn?`<p class="toolwarn">⚠ ${esc(t.warn)}</p>`:""}
+      ${t.tips&&t.tips.length?`<h5>Tips</h5><ul class="tips">${list(t.tips)}</ul>`:""}
+    </div>`;
+  }
+  h += `</div>`;
+  $("#sheetIn").innerHTML = `<button class="close" onclick="closeSheet()">✕</button>` + h;
+}
+
+/* ---------- about / support / contact ---------- */
+const CONTACT_EMAIL = "cybernetix88@proton.me";
+const DONATE_URL = "https://buymeacoffee.com/cybernetix88";
+
+function openInfo(kind){
+  let h = "";
+  if(kind==="about"){
+    h = `<div class="info">
+      <h2>A one-person project</h2>
+      <p class="lead">DistroHub is run by one person — me.</p>
+      <p>I build and keep DistroHub going in my own free time, under the <b>Opperman Cybernetix</b> name. No company behind it, no team, no ads. Just someone who thinks picking an operating system should be simpler — with honest install guides and real user reviews in one place.</p>
+      <p>Every distro guide here is written and kept up to date by hand. If something's outdated, broken, or a distro's missing, the <a onclick="openInfo('contact')" style="color:var(--accent);cursor:pointer">contact form</a> comes straight to me.</p>
+      <p class="sig">— Opperman Cybernetix</p>
+    </div>`;
+  } else if(kind==="support"){
+    h = `<div class="info">
+      <h2>Support DistroHub</h2>
+      <p class="lead">It's free, and it'll stay that way.</p>
+      <p>If DistroHub saved you time or helped you pick a distro, a small donation helps cover hosting and the hours it takes to keep every guide current. Completely optional — even sharing the site with someone helps.</p>
+      <button class="donate" onclick="donate()">☕ Buy me a coffee</button>
+      <p>Thank you — genuinely. It keeps a one-person project alive.</p>
+      <p class="sig">— Opperman Cybernetix</p>
+    </div>`;
+  } else {
+    h = `<div class="info">
+      <h2>Get in touch</h2>
+      <p class="lead">A complaint, a fix, a distro to add, or just a question — send it my way.</p>
+      <div class="cform">
+        <label for="cName">Name</label>
+        <input id="cName" type="text" maxlength="60" placeholder="Your name or handle">
+        <label for="cEmail">Your email (so I can reply)</label>
+        <input id="cEmail" type="email" maxlength="120" placeholder="you@example.com">
+        <label for="cTopic">What's it about?</label>
+        <select id="cTopic">
+          <option>Suggest a distro or feature</option>
+          <option>Something's wrong / out of date</option>
+          <option>Complaint</option>
+          <option>General question</option>
+          <option>Other</option>
+        </select>
+        <label for="cMsg">Message</label>
+        <textarea id="cMsg" maxlength="2000" placeholder="Tell me what's on your mind…"></textarea>
+        <button class="send" onclick="sendContact()">Send message</button>
+        <div class="to">Opens your email app · goes to ${CONTACT_EMAIL}</div>
+      </div>
+    </div>`;
+  }
+  $("#sheetIn").innerHTML = `<button class="close" onclick="closeSheet()">✕</button>` + h;
+  $("#scrim").classList.add("on"); $("#sheet").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+function donate(){
+  if(DONATE_URL){ window.open(DONATE_URL, "_blank", "noopener"); }
+  else { alert("Donation link isn't set yet — add your Ko-fi / PayPal / Buy Me a Coffee URL to DONATE_URL at the top of the script."); }
+}
+function cval(id){ const e=document.getElementById(id); return e ? e.value.trim() : ""; }
+async function sendContact(){
+  const name = cval("cName") || "anonymous";
+  const email = cval("cEmail");
+  const topic = cval("cTopic");
+  const msg = cval("cMsg");
+  if(!msg){ alert("Add a message before sending."); return; }
+  const btn = document.querySelector(".cform .send");
+  if(btn){ btn.disabled = true; btn.textContent = "Sending…"; }
+  try{
+    const res = await fetch("/api/contact", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({name, email, topic, message: msg})
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || "Could not send.");
+    document.querySelector(".cform").innerHTML =
+      '<div class="no-rev"><b>Message sent — thank you.</b><br>I read every one and reply when I can.</div>';
+  }catch(e){
+    if(btn){ btn.disabled = false; btn.textContent = "Send message"; }
+    alert(e.message || "Something went wrong. Try again in a moment.");
+  }
+}
+
+buildChips();
+loadDistros().then(render).catch(()=>{
+  document.getElementById('grid').innerHTML='<div class=\'empty-grid\'>Could not reach the server. Is the Flask app running?</div>';
+});
+</script>
+</body>
+</html>

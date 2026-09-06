@@ -1,0 +1,96 @@
+[
+  {
+    "id": "ventoy",
+    "name": "Ventoy",
+    "for": "Put many ISOs on one stick — no re-flashing. Works for Linux and Windows.",
+    "platforms": "Windows · Linux",
+    "url": "https://www.ventoy.net/en/download.html",
+    "install": [
+      "Set the stick up once, then it's drag-and-drop forever after.",
+      "Windows: download the Ventoy .zip, extract it, and run Ventoy2Disk.exe.",
+      "Pick your USB in the Device dropdown, then click Install. This wipes the whole stick — confirm the two warnings.",
+      "Linux: download the .tar.gz, extract it, open a terminal in that folder, and run the install command below (or use the web GUI: sudo sh VentoyWeb.sh, then open the localhost link it prints and click Install)."
+    ],
+    "code": "# Linux — one-time setup (replace sdX with your USB from lsblk)\nsudo sh Ventoy2Disk.sh -i /dev/sdX",
+    "use": [
+      "That's the hard part done. From now on you never flash again.",
+      "Just copy any .iso file onto the Ventoy drive — drag-and-drop in your file manager, or cp on Linux.",
+      "Add as many ISOs as fit — mix Linux distros and Windows freely.",
+      "Boot the PC from the USB. Ventoy shows a menu of every ISO on the stick; pick one and it boots."
+    ],
+    "tips": [
+      "The Install step happens once. After that, adding a new distro is literally copying a file.",
+      "Secure Boot: Ventoy supports it, but if a distro refuses to boot, disable Secure Boot in the BIOS or switch Ventoy to GRUB2 mode.",
+      "Leave the stick on the default exFAT/FAT32 so both Windows and Linux ISOs work."
+    ]
+  },
+  {
+    "id": "rufus",
+    "name": "Rufus",
+    "for": "The go-to for Windows ISOs (and single Linux ISOs) on a Windows PC.",
+    "platforms": "Windows",
+    "url": "https://rufus.ie",
+    "install": [
+      "Rufus is a single portable .exe — nothing to install.",
+      "Download it and double-click to run."
+    ],
+    "code": "",
+    "use": [
+      "Plug in the USB. Rufus auto-selects it under Device — double-check it's the right one, because it gets wiped.",
+      "Click SELECT and choose your .iso file.",
+      "Leave Partition scheme on the auto-detected value (GPT for modern UEFI machines).",
+      "Windows 11 only: Rufus pops a dialog — tick 'Remove requirement for 4GB+ RAM, Secure Boot and TPM 2.0' and 'Remove requirement for an online Microsoft account' if you want those bypasses.",
+      "Click START, then confirm the 'all data will be destroyed' warning.",
+      "Wait for the green READY bar, then close Rufus and eject the stick."
+    ],
+    "tips": [
+      "Rufus automatically splits the oversized Windows install file that a plain FAT32 stick can't hold — that's why it's the tool for Windows USBs.",
+      "GPT vs MBR: choose GPT + UEFI for anything made in the last ~10 years.",
+      "If a Linux ISO won't boot, redo it and pick 'DD Image' mode when Rufus asks, instead of ISO mode."
+    ]
+  },
+  {
+    "id": "etcher",
+    "name": "balenaEtcher",
+    "for": "The simplest cross-platform way to flash a single ISO. Hard to get wrong.",
+    "platforms": "Windows · macOS · Linux",
+    "url": "https://etcher.balena.io",
+    "install": [
+      "Download the installer for your OS and run it.",
+      "On Linux it's an AppImage — make it executable (chmod +x) and double-click."
+    ],
+    "code": "",
+    "use": [
+      "Flash from file — pick your .iso.",
+      "Select target — choose your USB. Etcher hides your system drives, so you can't wipe your OS by accident.",
+      "Flash! — enter your password and wait. Etcher verifies the write automatically when it's done."
+    ],
+    "tips": [
+      "Genuinely the friendliest option — great for a first-timer.",
+      "One ISO per stick: re-flashing replaces whatever was on it (unlike Ventoy).",
+      "AppImage won't open on Linux? Run chmod +x balenaEtcher*.AppImage, or install the libfuse2 package."
+    ]
+  },
+  {
+    "id": "dd",
+    "name": "dd (command line)",
+    "for": "Linux/macOS users who want zero extra software. Powerful and unforgiving.",
+    "platforms": "Linux · macOS (built in)",
+    "url": "",
+    "install": [
+      "Nothing to install — dd is already on every Linux and macOS system."
+    ],
+    "code": "lsblk                              # find your USB, e.g. /dev/sdb (the disk, not sdb1)\nsudo umount /dev/sdX*              # unmount it (don't physically eject)\nsudo dd if=/path/to/distro.iso of=/dev/sdX bs=4M status=progress oflag=sync\nsync",
+    "use": [
+      "Plug in the USB and find its device name: lsblk on Linux, or diskutil list on macOS. It's the whole disk (like /dev/sdb), not a partition (no number on the end).",
+      "Unmount it — but don't eject it.",
+      "Run the dd command, pointing if= at your ISO and of= at the USB disk.",
+      "Wait for it to finish (status=progress shows how far along it is), then run sync to be sure it's fully written."
+    ],
+    "warn": "dd has no undo and asks for no confirmation. If you put the wrong device in of=, it overwrites that disk instantly — including your main drive. Always run lsblk first and read the device name twice.",
+    "tips": [
+      "bs=4M makes it fast; oflag=sync makes sure everything is written before the command returns.",
+      "On macOS use /dev/rdiskN (the raw device) and bs=4m for a big speed-up."
+    ]
+  }
+]

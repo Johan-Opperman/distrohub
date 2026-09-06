@@ -1,0 +1,796 @@
+[
+  {
+    "id": "mint",
+    "name": "Linux Mint 22.3",
+    "cat": "beginner",
+    "g": "#86c440",
+    "tags": [
+      "cinnamon",
+      "ubuntu",
+      "easy",
+      "windows switch"
+    ],
+    "pm": "apt",
+    "based": "Ubuntu 24.04",
+    "diff": "Easy",
+    "url": "https://linuxmint.com/download.php",
+    "blurb": "The easiest landing off Windows \u2014 polished Cinnamon desktop.",
+    "usb": "Flash the Cinnamon ISO with balenaEtcher or Ventoy (verify the checksum first).",
+    "install": [
+      "Boot the live desktop \u2192 Install Linux Mint.",
+      "Language & keyboard \u2192 tick Install multimedia codecs.",
+      "Choose disk, create your user, reboot."
+    ],
+    "after": "sudo apt update && sudo apt upgrade -y\nsudo apt install -y build-essential git vim python3-pip",
+    "seed": [
+      {
+        "who": "Riaan",
+        "r": 5,
+        "c": "Put this on my mom's laptop. Zero phone calls since. Says it all."
+      },
+      {
+        "who": "kbd_ninja",
+        "r": 4,
+        "c": "Great for beginners. Cinnamon is snappy even on old hardware."
+      }
+    ],
+    "update": "sudo apt update && sudo apt upgrade -y"
+  },
+  {
+    "id": "zorin",
+    "name": "Zorin OS 18.1",
+    "cat": "beginner",
+    "g": "#0cc1f3",
+    "tags": [
+      "ubuntu",
+      "windows switch",
+      "macos look"
+    ],
+    "pm": "apt",
+    "based": "Ubuntu",
+    "diff": "Easy",
+    "url": "https://zorin.com/os/download/",
+    "blurb": "Looks like Windows or macOS out of the box \u2014 the switcher's favourite.",
+    "usb": "Flash the Core (free) ISO with balenaEtcher or Ventoy.",
+    "install": [
+      "Boot \u2192 Install Zorin OS.",
+      "Tick third-party software \u2192 choose disk.",
+      "Create user, reboot."
+    ],
+    "after": "sudo apt update && sudo apt upgrade -y\nsudo apt install -y git vim python3-pip keepassxc",
+    "seed": [
+      {
+        "who": "convertme",
+        "r": 5,
+        "c": "Zorin Appearance made my dad think he was still on Windows. Genius."
+      }
+    ],
+    "update": "sudo apt update && sudo apt upgrade -y"
+  },
+  {
+    "id": "elementary",
+    "name": "elementary OS 8.1.1",
+    "cat": "beginner",
+    "g": "#64baff",
+    "tags": [
+      "pantheon",
+      "macos look",
+      "ubuntu"
+    ],
+    "pm": "apt",
+    "based": "Ubuntu LTS",
+    "diff": "Easy",
+    "url": "https://elementary.io/",
+    "blurb": "Clean, macOS-like Pantheon desktop with a curated app store.",
+    "usb": "Enter 0 on the download page for a free ISO, then flash with Etcher.",
+    "install": [
+      "Boot \u2192 language/keyboard.",
+      "Erase and Install or Custom.",
+      "Create user, reboot."
+    ],
+    "after": "sudo apt update && sudo apt upgrade -y\nsudo apt install -y git vim python3-pip",
+    "update": "sudo apt update && sudo apt upgrade -y"
+  },
+  {
+    "id": "ubuntu",
+    "name": "Ubuntu 26.04 LTS",
+    "cat": "beginner",
+    "g": "#e95420",
+    "tags": [
+      "gnome",
+      "lts",
+      "popular",
+      "wayland"
+    ],
+    "pm": "apt",
+    "based": "Debian",
+    "diff": "Easy",
+    "url": "https://ubuntu.com/download/desktop",
+    "blurb": "The default choice \u2014 huge community, supported to 2031.",
+    "usb": "Flash the Desktop ISO with balenaEtcher, Ventoy, or dd.",
+    "install": [
+      "Boot \u2192 Try or Install Ubuntu \u2192 Interactive.",
+      "Tick Install third-party software.",
+      "Disk (optional TPM encryption), user, reboot."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo apt install -y ubuntu-restricted-extras build-essential git python3-pip",
+    "seed": [
+      {
+        "who": "devbox",
+        "r": 4,
+        "c": "Rock solid for work. Wayland-only in 26.04 tripped up one old app but otherwise fine."
+      }
+    ],
+    "update": "sudo apt update && sudo apt full-upgrade -y"
+  },
+  {
+    "id": "popos",
+    "name": "Pop!_OS 24.04 LTS",
+    "cat": "beginner",
+    "g": "#48b9c7",
+    "tags": [
+      "cosmic",
+      "system76",
+      "nvidia",
+      "tiling"
+    ],
+    "pm": "apt",
+    "based": "Ubuntu 24.04",
+    "diff": "Easy",
+    "url": "https://system76.com/pop/download/",
+    "blurb": "System76's polished COSMIC desktop \u2014 great NVIDIA support.",
+    "usb": "Grab the NVIDIA ISO if the machine has an Nvidia GPU, else Intel/AMD. Flash with Etcher.",
+    "install": [
+      "Boot \u2192 COSMIC installer.",
+      "Clean Install or Custom (optional encryption).",
+      "Create user, reboot."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo apt install -y build-essential git vim python3-pip",
+    "update": "sudo apt update && sudo apt full-upgrade -y"
+  },
+  {
+    "id": "mx",
+    "name": "MX Linux 25.2",
+    "cat": "beginner",
+    "g": "#8fa5b5",
+    "tags": [
+      "debian",
+      "xfce",
+      "lightweight",
+      "mx tools"
+    ],
+    "pm": "apt",
+    "based": "Debian 13",
+    "diff": "Easy",
+    "url": "https://mxlinux.org/download-links/",
+    "blurb": "Debian-based, light and fast, with the handy MX Tools control centre.",
+    "usb": "Flash the Xfce or KDE ISO with Etcher or Ventoy.",
+    "install": [
+      "Boot the live desktop \u2192 run the MX installer.",
+      "Choose disk and create your user.",
+      "Reboot."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo apt install -y git vim python3-pip",
+    "seed": [
+      {
+        "who": "oldthinkpad",
+        "r": 5,
+        "c": "Runs like a dream on a 2013 laptop. MX Package Installer is underrated."
+      }
+    ],
+    "update": "sudo apt update && sudo apt full-upgrade -y"
+  },
+  {
+    "id": "fedora",
+    "name": "Fedora 44",
+    "cat": "mainstream",
+    "g": "#3c6eb4",
+    "tags": [
+      "gnome",
+      "dnf",
+      "redhat",
+      "cutting edge"
+    ],
+    "pm": "dnf",
+    "based": "independent",
+    "diff": "Medium",
+    "url": "https://fedoraproject.org/workstation/",
+    "blurb": "Fresh GNOME, close to upstream, a favourite of developers.",
+    "usb": "Use Fedora Media Writer (downloads + flashes) or Etcher.",
+    "install": [
+      "Boot \u2192 Install to Hard Drive.",
+      "Installation Destination \u2192 pick disk (Automatic = Btrfs).",
+      "Reboot, create user."
+    ],
+    "after": "sudo dnf upgrade --refresh -y\n# RPM Fusion + codecs:\nsudo dnf swap ffmpeg-free ffmpeg --allowerasing -y\nsudo dnf group install -y multimedia development-tools",
+    "seed": [
+      {
+        "who": "pyfan",
+        "r": 5,
+        "c": "Best dev experience out of the box. Just remember RPM Fusion for codecs."
+      }
+    ],
+    "update": "sudo dnf upgrade --refresh -y"
+  },
+  {
+    "id": "debian",
+    "name": "Debian 13",
+    "cat": "mainstream",
+    "g": "#a80030",
+    "tags": [
+      "stable",
+      "gnome",
+      "server",
+      "trixie"
+    ],
+    "pm": "apt",
+    "based": "independent",
+    "diff": "Medium",
+    "url": "https://www.debian.org/download",
+    "blurb": "The universal, ultra-stable base half of Linux is built on.",
+    "usb": "Grab the image that includes non-free firmware, then flash with Etcher.",
+    "install": [
+      "Boot \u2192 Graphical Install.",
+      "Set root + user, guided partitioning.",
+      "Pick GNOME, install GRUB, reboot."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo apt install -y build-essential git vim python3-pip",
+    "update": "sudo apt update && sudo apt full-upgrade -y"
+  },
+  {
+    "id": "opensuse",
+    "name": "openSUSE Leap 16",
+    "cat": "mainstream",
+    "g": "#73ba25",
+    "tags": [
+      "zypper",
+      "kde",
+      "agama",
+      "selinux"
+    ],
+    "pm": "zypper",
+    "based": "SUSE",
+    "diff": "Medium",
+    "url": "https://get.opensuse.org/leap/",
+    "blurb": "Enterprise-grade polish with the new Agama installer and YaST heritage.",
+    "usb": "Flash the offline/DVD image with Etcher or dd.",
+    "install": [
+      "Boot \u2192 the Agama installer.",
+      "Skip registration, choose desktop.",
+      "Disk, root + user, install, reboot."
+    ],
+    "after": "sudo zypper refresh && sudo zypper update -y\nsudo zypper install -y opi && opi codecs",
+    "update": "sudo zypper refresh && sudo zypper update -y"
+  },
+  {
+    "id": "nobara",
+    "name": "Nobara",
+    "cat": "gaming",
+    "g": "#c084fc",
+    "tags": [
+      "fedora",
+      "gaming",
+      "steam",
+      "proton",
+      "wine"
+    ],
+    "pm": "dnf",
+    "based": "Fedora",
+    "diff": "Easy",
+    "url": "https://nobaraproject.org/",
+    "blurb": "Fedora, but ready to game \u2014 codecs, Wine and kernel tweaks preloaded.",
+    "usb": "Flash the KDE or GNOME ISO with Etcher.",
+    "install": [
+      "Boot \u2192 Calamares installer \u2192 disk/user.",
+      "Reboot \u2192 the Nobara Welcome app runs.",
+      "Use Welcome to update + install drivers."
+    ],
+    "after": "# Update via the Nobara Welcome app first, then dnf works:\nsudo dnf install -y git vim python3-pip",
+    "seed": [
+      {
+        "who": "framechaser",
+        "r": 5,
+        "c": "Steam + Proton just worked. No fiddling. This is the one for gaming."
+      },
+      {
+        "who": "linux_curious",
+        "r": 4,
+        "c": "Great for gaming, still Fedora underneath so lots of guides apply."
+      }
+    ],
+    "update": "# Use the Nobara 'Update System' app (routes updates safely), or:\nsudo dnf upgrade --refresh -y"
+  },
+  {
+    "id": "garuda",
+    "name": "Garuda Linux",
+    "cat": "gaming",
+    "g": "#d63b3b",
+    "tags": [
+      "arch",
+      "gaming",
+      "kde",
+      "chaotic-aur",
+      "btrfs"
+    ],
+    "pm": "pacman",
+    "based": "Arch",
+    "diff": "Medium",
+    "url": "https://garudalinux.org/downloads",
+    "blurb": "Flashy Arch-based gaming distro with snapshots and one-click game tools.",
+    "usb": "Flash the Dragonized KDE ISO with Etcher or Ventoy.",
+    "install": [
+      "Boot \u2192 Calamares \u2192 disk/user.",
+      "Reboot."
+    ],
+    "after": "garuda-update   # use this, not raw pacman\n# Garuda Gamer installs Steam/Lutris/Wine in a click",
+    "update": "garuda-update            # wraps pacman, handles keyrings + snapshots"
+  },
+  {
+    "id": "manjaro",
+    "name": "Manjaro",
+    "cat": "arch",
+    "g": "#35bf5c",
+    "tags": [
+      "arch",
+      "pamac",
+      "rolling",
+      "beginner arch"
+    ],
+    "pm": "pacman",
+    "based": "Arch",
+    "diff": "Medium",
+    "url": "https://manjaro.org/products/download/x86",
+    "blurb": "Arch made approachable \u2014 graphical installer and the Pamac app store.",
+    "usb": "Flash the GNOME/KDE/Xfce ISO with Etcher or Ventoy.",
+    "install": [
+      "Boot \u2192 the Calamares graphical installer.",
+      "Partitions (optional LUKS), create user.",
+      "Reboot."
+    ],
+    "after": "sudo pacman -Syu\nmhwd -a pci nonfree 0300   # auto GPU drivers",
+    "update": "sudo pacman -Syu"
+  },
+  {
+    "id": "endeavour",
+    "name": "EndeavourOS",
+    "cat": "arch",
+    "g": "#7c3aed",
+    "tags": [
+      "arch",
+      "yay",
+      "near-vanilla",
+      "rolling"
+    ],
+    "pm": "pacman",
+    "based": "Arch",
+    "diff": "Medium",
+    "url": "https://endeavouros.com/#Download",
+    "blurb": "The gentlest way onto real Arch \u2014 graphical installer, yay preinstalled.",
+    "usb": "Flash the ISO with Etcher or Ventoy.",
+    "install": [
+      "Boot to the live desktop \u2192 Welcome app \u2192 Start the Installer.",
+      "Online mode, pick your desktop.",
+      "Disk, user, install."
+    ],
+    "after": "sudo pacman -Syu\n# yay is already here for the AUR:\nyay -S your-package",
+    "seed": [
+      {
+        "who": "archwannabe",
+        "r": 5,
+        "c": "Wanted Arch without the week-long install. This is exactly that."
+      }
+    ],
+    "update": "sudo pacman -Syu"
+  },
+  {
+    "id": "arch",
+    "name": "Arch Linux",
+    "cat": "arch",
+    "g": "#1793d1",
+    "tags": [
+      "rolling",
+      "archinstall",
+      "aur",
+      "diy",
+      "hyprland"
+    ],
+    "pm": "pacman",
+    "based": "independent",
+    "diff": "Hard",
+    "url": "https://archlinux.org/download/",
+    "blurb": "Build-it-yourself, always current, endlessly customisable. The rite of passage.",
+    "usb": "Flash the ISO with dd or Ventoy.",
+    "install": [
+      "Boot in UEFI \u2192 root shell. Wi-Fi via iwctl.",
+      "Run archinstall and work the menu (disk, user, desktop).",
+      "Install, reboot."
+    ],
+    "after": "sudo pacman -Syu\ngit clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si",
+    "seed": [
+      {
+        "who": "btw_i_use",
+        "r": 5,
+        "c": "archinstall makes it 20 minutes now. Still learn more here than anywhere."
+      },
+      {
+        "who": "ricer",
+        "r": 4,
+        "c": "Perfect base for a Hyprland rice. Not for a first Linux though."
+      }
+    ],
+    "update": "sudo pacman -Syu"
+  },
+  {
+    "id": "kali",
+    "name": "Kali Linux",
+    "cat": "security",
+    "g": "#ee3e54",
+    "tags": [
+      "pentesting",
+      "security",
+      "debian",
+      "tools",
+      "oscp"
+    ],
+    "pm": "apt",
+    "based": "Debian",
+    "diff": "Medium",
+    "url": "https://www.kali.org/get-kali/",
+    "blurb": "The pentester's toolbox \u2014 hundreds of security tools, ready to go.",
+    "usb": "Flash the Installer image with Etcher or Ventoy.",
+    "install": [
+      "Boot \u2192 the installer \u2192 language/user/disk.",
+      "Xfce desktop by default.",
+      "Install, reboot."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo apt install -y kali-linux-large   # big toolset",
+    "note": "Only test systems you own or are authorised to assess. Great in a VM.",
+    "seed": [
+      {
+        "who": "redteamer",
+        "r": 5,
+        "c": "The standard for a reason. Run it in a VM, keep your host clean."
+      }
+    ],
+    "update": "sudo apt update && sudo apt upgrade -y"
+  },
+  {
+    "id": "parrot",
+    "name": "Parrot OS",
+    "cat": "security",
+    "g": "#15d3d3",
+    "tags": [
+      "pentesting",
+      "privacy",
+      "debian",
+      "anonsurf"
+    ],
+    "pm": "apt",
+    "based": "Debian",
+    "diff": "Medium",
+    "url": "https://parrotsec.org/download/",
+    "blurb": "Lighter than Kali, with strong privacy tooling alongside the offensive kit.",
+    "usb": "Flash the Security (or Home) ISO with Etcher.",
+    "install": [
+      "Boot \u2192 Calamares installer \u2192 user/disk/desktop.",
+      "Install, reboot."
+    ],
+    "after": "sudo parrot-upgrade   # wraps apt full-upgrade",
+    "note": "Authorised targets only.",
+    "update": "sudo parrot-upgrade       # Parrot's wrapper around apt full-upgrade"
+  },
+  {
+    "id": "blackarch",
+    "name": "BlackArch",
+    "cat": "security",
+    "g": "#111418",
+    "tags": [
+      "arch",
+      "pentesting",
+      "2800 tools",
+      "overlay"
+    ],
+    "pm": "pacman",
+    "based": "Arch",
+    "diff": "Hard",
+    "url": "https://blackarch.org/downloads.html",
+    "blurb": "~2,800 security tools as an overlay on Arch \u2014 for experienced users.",
+    "usb": "Flash the full ISO, or add the repo to an existing Arch box.",
+    "install": [
+      "Option A: curl the strap.sh and run it on Arch.",
+      "Option B: flash the ISO and install like Arch.",
+      "List tools: pacman -Sg | grep blackarch"
+    ],
+    "after": "curl -O https://blackarch.org/strap.sh\nchmod +x strap.sh && sudo ./strap.sh\nsudo pacman -S blackarch-webapp   # by category",
+    "note": "Authorised targets only. The full group is enormous \u2014 install by category.",
+    "update": "sudo pacman -Syu"
+  },
+  {
+    "id": "tails",
+    "name": "Tails",
+    "cat": "privacy",
+    "g": "#56347c",
+    "tags": [
+      "privacy",
+      "tor",
+      "amnesic",
+      "live usb",
+      "anonymity"
+    ],
+    "pm": "\u2014",
+    "based": "Debian",
+    "diff": "Easy",
+    "url": "https://tails.net/install/",
+    "blurb": "Amnesic live OS routed through Tor \u2014 forgets everything on shutdown.",
+    "usb": "Write Tails 7.0 with the Tails installer or Etcher (follow their steps for upgrades).",
+    "install": [
+      "It runs from the USB \u2014 you don't install to disk.",
+      "Boot \u2192 Tails Greeter \u2192 optional Persistent Storage.",
+      "Everything routes through Tor."
+    ],
+    "after": "# Amnesic by design \u2014 no package routine.\n# Persistent Storage keeps the few things you choose.",
+    "note": "Boot it on a machine that isn't your daily driver.",
+    "seed": [
+      {
+        "who": "journo",
+        "r": 5,
+        "c": "For sensitive work there's nothing else. Leaves no trace, full stop."
+      }
+    ],
+    "update": "# Amnesic OS \u2014 Tails checks for upgrades on boot and walks you through applying them."
+  },
+  {
+    "id": "qubes",
+    "name": "Qubes OS 4.3.1",
+    "cat": "privacy",
+    "g": "#3874d8",
+    "tags": [
+      "security",
+      "isolation",
+      "xen",
+      "vm",
+      "snowden"
+    ],
+    "pm": "per-template",
+    "based": "Fedora/Xen",
+    "diff": "Hard",
+    "url": "https://www.qubes-os.org/downloads/",
+    "blurb": "Security by isolation \u2014 every task in its own VM. Serious hardware needed.",
+    "usb": "Write with a raw copy (Rufus DD mode, Etcher, or dd) \u2014 not a normal burn.",
+    "install": [
+      "Needs VT-x/VT-d, 16GB+ RAM, SSD (check the HCL).",
+      "Anaconda installer \u2192 full-disk encryption \u2192 dom0.",
+      "First boot builds Fedora/Debian/Whonix templates."
+    ],
+    "after": "# Install apps inside a template, not dom0:\n#   (Fedora template) sudo dnf install wireshark\n# Update via the Qubes Update tool.",
+    "note": "Expert-level. Snowden-endorsed; unmatched isolation.",
+    "update": "# Use the Qubes Update tool in dom0. Each template updates inside itself."
+  },
+  {
+    "id": "nixos",
+    "name": "NixOS 26.05",
+    "cat": "advanced",
+    "g": "#7eb3e6",
+    "tags": [
+      "declarative",
+      "nix",
+      "reproducible",
+      "rollback"
+    ],
+    "pm": "nix",
+    "based": "independent",
+    "diff": "Hard",
+    "url": "https://nixos.org/download/",
+    "blurb": "Your whole system as one reproducible config file. Roll back anytime.",
+    "usb": "Flash the graphical ISO with Etcher or dd.",
+    "install": [
+      "Boot \u2192 graphical Calamares installer.",
+      "Disk / user / desktop \u2192 install.",
+      "(Manual path uses nixos-generate-config.)"
+    ],
+    "after": "# Edit /etc/nixos/configuration.nix, then:\nsudo nixos-rebuild switch\n# packages go in environment.systemPackages",
+    "seed": [
+      {
+        "who": "reproducible",
+        "r": 5,
+        "c": "Once it clicks you can't go back. My whole setup is one file in git."
+      }
+    ],
+    "update": "sudo nixos-rebuild switch --upgrade"
+  },
+  {
+    "id": "void",
+    "name": "Void Linux",
+    "cat": "advanced",
+    "g": "#478061",
+    "tags": [
+      "runit",
+      "xbps",
+      "independent",
+      "minimal",
+      "musl"
+    ],
+    "pm": "xbps",
+    "based": "independent",
+    "diff": "Hard",
+    "url": "https://voidlinux.org/download/",
+    "blurb": "Independent, no systemd (runit), fast and minimal with the xbps manager.",
+    "usb": "Flash the base or xfce live image with Etcher or dd.",
+    "install": [
+      "Boot live, log in (root / voidlinux).",
+      "Run void-installer \u2192 disk/bootloader.",
+      "Reboot."
+    ],
+    "after": "sudo xbps-install -Syu\nsudo xbps-install -S git vim htop nmap tmux",
+    "update": "sudo xbps-install -Syu"
+  },
+  {
+    "id": "alpine",
+    "name": "Alpine Linux 3.24",
+    "cat": "advanced",
+    "g": "#0d597f",
+    "tags": [
+      "musl",
+      "busybox",
+      "containers",
+      "tiny",
+      "apk"
+    ],
+    "pm": "apk",
+    "based": "independent",
+    "diff": "Hard",
+    "url": "https://alpinelinux.org/downloads/",
+    "blurb": "Tiny, security-focused, ~150MB installed \u2014 the container world's darling.",
+    "usb": "Flash the Standard or Extended image with Etcher or dd.",
+    "install": [
+      "Boot \u2192 log in as root.",
+      "Run setup-alpine (disk mode 'sys' for full install).",
+      "Reboot."
+    ],
+    "after": "# enable the community repo, then:\napk update && apk upgrade\napk add git vim htop nmap tmux",
+    "update": "apk update && apk upgrade"
+  },
+  {
+    "id": "gentoo",
+    "name": "Gentoo",
+    "cat": "advanced",
+    "g": "#54487a",
+    "tags": [
+      "source",
+      "portage",
+      "use flags",
+      "compile",
+      "expert"
+    ],
+    "pm": "emerge",
+    "based": "independent",
+    "diff": "Expert",
+    "url": "https://www.gentoo.org/downloads/",
+    "blurb": "Compile it all your way. The deepest learning experience in Linux.",
+    "usb": "Flash the minimal install ISO with Etcher or dd.",
+    "install": [
+      "Multi-hour, hands-on \u2014 follow the official Handbook.",
+      "Partition \u2192 unpack stage3 \u2192 chroot \u2192 build kernel.",
+      "Install bootloader, reboot."
+    ],
+    "after": "sudo emerge --sync\nsudo emerge -avuDN @world   # update (compiles from source)",
+    "note": "Source-based. Budget real time \u2014 the Handbook is your friend.",
+    "update": "sudo emerge --sync && sudo emerge -avuDN @world"
+  },
+  {
+    "id": "rocky",
+    "name": "Rocky Linux 10.2",
+    "cat": "servers",
+    "g": "#10b981",
+    "tags": [
+      "rhel",
+      "server",
+      "enterprise",
+      "selinux",
+      "centos"
+    ],
+    "pm": "dnf",
+    "based": "RHEL",
+    "diff": "Medium",
+    "url": "https://rockylinux.org/download",
+    "blurb": "Free, bug-for-bug RHEL rebuild \u2014 built to run servers for a decade.",
+    "usb": "Flash the DVD or boot ISO with Etcher or dd.",
+    "install": [
+      "Boot \u2192 Anaconda installer \u2192 disk.",
+      "Root/user, software selection (Server/Minimal).",
+      "Install, reboot."
+    ],
+    "after": "sudo dnf upgrade -y\nsudo dnf install -y epel-release git vim tmux htop",
+    "seed": [
+      {
+        "who": "sysadmin_za",
+        "r": 5,
+        "c": "Migrated our servers off CentOS to Rocky. Boring in the best way."
+      }
+    ],
+    "update": "sudo dnf upgrade -y"
+  },
+  {
+    "id": "raspios",
+    "name": "Raspberry Pi OS",
+    "cat": "servers",
+    "g": "#c51a4a",
+    "tags": [
+      "raspberry pi",
+      "arm",
+      "debian",
+      "headless",
+      "imager"
+    ],
+    "pm": "apt",
+    "based": "Debian 13",
+    "diff": "Easy",
+    "url": "https://www.raspberrypi.com/software/",
+    "blurb": "The default OS for the Pi \u2014 flash with Imager and run it headless.",
+    "usb": "Use Raspberry Pi Imager: preset hostname, Wi-Fi, SSH and user before writing.",
+    "install": [
+      "Insert the card, power the Pi \u2014 it boots straight in.",
+      "First-boot setup runs automatically.",
+      "No separate installer."
+    ],
+    "after": "sudo apt update && sudo apt full-upgrade -y\nsudo raspi-config   # interfaces, boot, overclock",
+    "seed": [
+      {
+        "who": "homelabber",
+        "r": 5,
+        "c": "Set SSH + Wi-Fi in Imager and it's headless from first boot. Perfect for the pi."
+      }
+    ],
+    "update": "sudo apt update && sudo apt full-upgrade -y"
+  },
+  {
+    "id": "win11",
+    "name": "Windows 11 \u00b7 25H2",
+    "cat": "windows",
+    "g": "#0067c0",
+    "tags": [
+      "microsoft",
+      "winget",
+      "rufus",
+      "gaming"
+    ],
+    "pm": "winget",
+    "based": "Windows NT",
+    "diff": "Easy",
+    "url": "https://www.microsoft.com/software-download/windows11",
+    "blurb": "The current Windows \u2014 use Rufus to flash it and skip the account nags.",
+    "usb": "Flash with Rufus \u2014 tick remove TPM/Secure-Boot check and the online-account requirement.",
+    "install": [
+      "Boot \u2192 Install now \u2192 edition \u2192 Custom.",
+      "Pick/format partition, install.",
+      "At OOBE, Shift+F10 \u2192 start ms-cxh:localonly for a local account."
+    ],
+    "after": "winget upgrade --all\nwinget install -e --id Mozilla.Firefox\nwinget install -e --id Git.Git",
+    "update": "winget upgrade --all"
+  },
+  {
+    "id": "win10",
+    "name": "Windows 10 \u00b7 22H2",
+    "cat": "windows",
+    "g": "#6b7480",
+    "tags": [
+      "microsoft",
+      "legacy",
+      "winget",
+      "eol"
+    ],
+    "pm": "winget",
+    "based": "Windows NT",
+    "diff": "Easy",
+    "url": "https://www.microsoft.com/software-download/windows10",
+    "blurb": "End-of-life since Oct 2025 \u2014 only for hardware that can't run 11.",
+    "usb": "Flash with Rufus (it splits the oversized install file).",
+    "install": [
+      "Boot \u2192 Install now \u2192 Custom \u2192 partition.",
+      "At OOBE pick 'I don't have internet' for a local account."
+    ],
+    "after": "winget upgrade --all\nwinget install -e --id Mozilla.Firefox",
+    "note": "No more free security updates. Prefer Windows 11 where the hardware allows.",
+    "update": "winget upgrade --all"
+  }
+]
