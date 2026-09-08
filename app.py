@@ -15,7 +15,7 @@ import json, os, sqlite3, smtplib, ssl
 from datetime import datetime, timezone
 from email.message import EmailMessage
 from pathlib import Path
-from flask import Flask, g, jsonify, request, render_template, abort
+from flask import Flask, g, jsonify, request, render_template, abort, Response
 
 BASE = Path(__file__).resolve().parent
 DB_PATH = BASE / "distrohub.db"
@@ -116,6 +116,23 @@ def distro_pdf(did):
     fname = did + "-distrohub-guide.pdf"
     return send_file(buf, mimetype="application/pdf", as_attachment=True, download_name=fname)
 
+
+@app.route("/robots.txt")
+def robots():
+    return Response(
+        "User-agent: *\nAllow: /\nSitemap: https://distrohub.opperman.dev/sitemap.xml\n",
+        mimetype="text/plain")
+
+@app.route("/sitemap.xml")
+def sitemap():
+    rows = db().execute("SELECT id FROM distros ORDER BY sort").fetchall()
+    locs = ["https://distrohub.opperman.dev/"]
+    locs += [f"https://distrohub.opperman.dev/distros/{r['id']}.pdf" for r in rows]
+    body = ['<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    body += [f"  <url><loc>{u}</loc></url>" for u in locs]
+    body.append("</urlset>")
+    return Response("\n".join(body), mimetype="application/xml")
 # ---------- api ----------
 @app.route("/api/distros")
 def api_distros():
